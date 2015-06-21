@@ -20,7 +20,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Root View Controller" id="aHR-lD-loZ">
-                        <barButtonItem key="rightBarButtonItem" title="Go to Map" id="uur-co-hUL">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uur-co-hUL">
                             <connections>
                                 <segue destination="tJW-qf-ouT" kind="show" identifier="showPlaceOnMap" id="QYZ-gx-g1M"/>
                             </connections>
