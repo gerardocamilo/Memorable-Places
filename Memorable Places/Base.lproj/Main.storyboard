@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="CRz-2d-GU0">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Root View Controller-->
@@ -43,7 +44,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="X8E-n3-EJP">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="X8E-n3-EJP">
                                 <rect key="frame" x="0.0" y="-81" width="611" height="637"/>
                                 <connections>
                                     <outlet property="delegate" destination="tJW-qf-ouT" id="sJj-j4-b8s"/>
@@ -51,6 +52,12 @@
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="X8E-n3-EJP" firstAttribute="top" secondItem="w7A-9Y-6oX" secondAttribute="topMargin" id="98i-pT-Wmp"/>
+                            <constraint firstItem="rOT-NZ-Fjb" firstAttribute="top" secondItem="X8E-n3-EJP" secondAttribute="bottom" id="cUW-Wb-R2f"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="X8E-n3-EJP" secondAttribute="trailing" constant="-27" id="iS7-U7-swG"/>
+                            <constraint firstItem="X8E-n3-EJP" firstAttribute="leading" secondItem="w7A-9Y-6oX" secondAttribute="leadingMargin" constant="-16" id="o9H-NC-Oan"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="map" destination="X8E-n3-EJP" id="PDw-eA-FHw"/>
