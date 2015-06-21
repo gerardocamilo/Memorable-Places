@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8225C75D1B2DD1700079D33D /* FavoritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8225C75C1B2DD1700079D33D /* FavoritesTableViewController.swift */; };
 		82A3EBE71B11045400FD9843 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A3EBE61B11045400FD9843 /* AppDelegate.swift */; };
 		82A3EBE91B11045400FD9843 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A3EBE81B11045400FD9843 /* ViewController.swift */; };
 		82A3EBEC1B11045400FD9843 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82A3EBEA1B11045400FD9843 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8225C75C1B2DD1700079D33D /* FavoritesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewController.swift; sourceTree = "<group>"; };
 		82A3EBE11B11045400FD9843 /* Memorable Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Memorable Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A3EBE51B11045400FD9843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82A3EBE61B11045400FD9843 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				82A3EBE61B11045400FD9843 /* AppDelegate.swift */,
 				82A3EBE81B11045400FD9843 /* ViewController.swift */,
 				82A3EBEA1B11045400FD9843 /* Main.storyboard */,
+				8225C75C1B2DD1700079D33D /* FavoritesTableViewController.swift */,
 				82A3EBED1B11045400FD9843 /* Images.xcassets */,
 				82A3EBEF1B11045500FD9843 /* LaunchScreen.xib */,
 				82A3EBE41B11045400FD9843 /* Supporting Files */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8225C75D1B2DD1700079D33D /* FavoritesTableViewController.swift in Sources */,
 				82A3EBE91B11045400FD9843 /* ViewController.swift in Sources */,
 				82A3EBE71B11045400FD9843 /* AppDelegate.swift in Sources */,
 			);
@@ -409,6 +413,7 @@
 				82A3EC021B11045500FD9843 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82A3EC031B11045500FD9843 /* Build configuration list for PBXNativeTarget "Memorable PlacesTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +422,7 @@
 				82A3EC051B11045500FD9843 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
