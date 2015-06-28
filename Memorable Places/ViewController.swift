@@ -9,52 +9,152 @@
 import UIKit
 import MapKit
 
-var annotationToDisplay: MKPointAnnotation? = MKPointAnnotation()
+var manager: CLLocationManager!
+var annotationToDisplay: MKPointAnnotation? = nil
 var displayList = Dictionary<Int, MKPointAnnotation>();
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var map: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        var uilpgr = UILongPressGestureRecognizer(target: self, action: "addFavoritePlace:")
-        uilpgr.minimumPressDuration = 1
-        map.addGestureRecognizer(uilpgr)
         
-        if annotationToDisplay != nil
-        {
+        //Setting up the location manager
+        manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+
+        
+        if annotationToDisplay == nil {
+            manager.requestWhenInUseAuthorization()
+            manager.startUpdatingLocation()
+        }
+        else {
             map.addAnnotation(annotationToDisplay!)
+            // Setting map area' limits
+            var latDelta:CLLocationDegrees = 0.01
+            var lonDelta:CLLocationDegrees = 0.01
+            
+            var span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+            
+            var region:MKCoordinateRegion = MKCoordinateRegionMake(annotationToDisplay!.coordinate, span)
+            
+            map.setRegion(region, animated: true)
         }
         
+        var uilpgr = UILongPressGestureRecognizer(target: self, action: "addFavoritePlace:")
+        uilpgr.minimumPressDuration = 1.0
+        map.addGestureRecognizer(uilpgr)
         
+    }
+    
+    /*
+    *
+    * Thi function will be called every time user's location is updated.
+    * We are going to keep the map centered where the user is located.
+    */
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+
+        // When locations are updated, at least one location is provided.
+        var location: CLLocation = locations[0] as! CLLocation
+
+        // Setting map area' limits
+        var latDelta:CLLocationDegrees = 0.01
+        var lonDelta:CLLocationDegrees = 0.01
+        
+        //creating the "square" that will be applied to the region
+        var span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+        
+        //This is the object that defines the area that the map will display
+        //Basically, the map will be centered in this area
+        var region:MKCoordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
+        
+        map.setRegion(region, animated: true)
+    
     }
 
     func addFavoritePlace(gestureRecognizer: UILongPressGestureRecognizer){
     
-        var touchPoint = gestureRecognizer.locationInView(self.map)
-        var newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
-        
-        
-        var annotation = MKPointAnnotation();
-        annotation.title = "Location \(favoritePlaces.count + 1)";
-        annotation.subtitle = "Added by you";
-        annotation.coordinate = newCoordinate;
-        
-        map.addAnnotation(annotation);
-        favoritePlaces[favoritePlaces.count] = annotation
+        //Making sure of only using the first action triggered by the long press
+        //This way, duplicate places are avoided.
+        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+            
+            //Getting the exact point where the user pressed
+            var touchPoint = gestureRecognizer.locationInView(self.map)
+            
+            //Extracting the coordinate to set it up in the annotation
+            var newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
+            
+            //CLLocation needed to get the address using reverseGeocodeLocation
+            var location:CLLocation = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
+            
+            //The annotation title for the annotations will be the address if available
+            var address = ""
+            
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
+            
+                if error != nil {
+                    println("Reverse geocoder failed with error" + error.localizedDescription)
+                    return
+                }
+                
+                if placemarks.count > 0 {
+                    let pm = placemarks[0] as! CLPlacemark
+                    //println("\(pm.thoroughfare), \(pm.subLocality), \(pm.locality), \(pm.administrativeArea)")
+                    
+                    var subThoroughfare = ""
+                    var thoroughfare = ""
+                    var locality = ""
+                    
+                    if (pm.subThoroughfare != nil ){
+                        subThoroughfare = pm.subThoroughfare
+                    }
+                    
+                    if (pm.thoroughfare != nil ){
+                        thoroughfare = pm.thoroughfare
+                    }
+                    
+                    if (pm.locality != nil ){
+                        locality = pm.locality
+                    }
+                    
+                    address = "\(subThoroughfare) \(thoroughfare) \(locality)"
 
+                    //Annotation to be stored
+                    var annotation = MKPointAnnotation();
+                    annotation.title = address //"Location \(favoritePlaces.count + 1)";
+                    annotation.subtitle = "Added by you";
+                    annotation.coordinate = newCoordinate;
+                    
+                    self.map.addAnnotation(annotation);
+                    
+                    //Storing annotation, it'll be used by table view controller
+                    favoritePlaces[favoritePlaces.count] = annotation
+                    
+                    //println(address)
+                }
+                else {
+                    println("Problem with the data received from geocoder")
+                }
+            })
+
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        annotationToDisplay = nil
+        //Cleaning map's annotation before leaving the controller..
+        //annotationToDisplay = nil
     }
     
     override func willMoveToParentViewController(parent: UIViewController?) {
-        
+
         if parent == nil {
-         annotationToDisplay = nil
+            //Also saving battery by turning location use off when it isn't required.
+            manager.stopUpdatingLocation()
+
+            //Cleaning map's annotation before leaving the controller.
+            annotationToDisplay = nil
         }
 
     }

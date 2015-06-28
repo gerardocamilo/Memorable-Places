@@ -5,7 +5,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Favorite Places-->
         <scene sceneID="Q6D-Yp-6YU">
             <objects>
                 <tableViewController id="6Q6-Fv-v8f" customClass="FavoritesTableViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,7 +19,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="aHR-lD-loZ">
+                    <navigationItem key="navigationItem" title="Favorite Places" id="aHR-lD-loZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="uur-co-hUL">
                             <connections>
                                 <segue destination="tJW-qf-ouT" kind="show" identifier="showPlaceOnMap" id="QYZ-gx-g1M"/>
@@ -32,10 +32,10 @@
             </objects>
             <point key="canvasLocation" x="1560" y="-2"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Memorable Locations-->
         <scene sceneID="NIg-Dt-mjt">
             <objects>
-                <viewController title="Map View Controller" id="tJW-qf-ouT" customClass="ViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Memorable Locations" id="tJW-qf-ouT" customClass="ViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eGi-Cz-MdI"/>
                         <viewControllerLayoutGuide type="bottom" id="rOT-NZ-Fjb"/>

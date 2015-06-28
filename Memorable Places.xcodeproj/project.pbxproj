@@ -14,6 +14,7 @@
 		82A3EBEE1B11045400FD9843 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82A3EBED1B11045400FD9843 /* Images.xcassets */; };
 		82A3EBF11B11045500FD9843 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82A3EBEF1B11045500FD9843 /* LaunchScreen.xib */; };
 		82A3EBFD1B11045500FD9843 /* Memorable_PlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A3EBFC1B11045500FD9843 /* Memorable_PlacesTests.swift */; };
+		82EDF2391B363F2F00C0126A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EDF2381B363F2F00C0126A /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		82A3EBF61B11045500FD9843 /* Memorable PlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Memorable PlacesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A3EBFB1B11045500FD9843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82A3EBFC1B11045500FD9843 /* Memorable_PlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memorable_PlacesTests.swift; sourceTree = "<group>"; };
+		82EDF2381B363F2F00C0126A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82EDF2391B363F2F00C0126A /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +64,7 @@
 		82A3EBD81B11045400FD9843 = {
 			isa = PBXGroup;
 			children = (
+				82EDF2381B363F2F00C0126A /* CoreLocation.framework */,
 				82A3EBE31B11045400FD9843 /* Memorable Places */,
 				82A3EBF91B11045500FD9843 /* Memorable PlacesTests */,
 				82A3EBE21B11045400FD9843 /* Products */,
