@@ -33,17 +33,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         else {
             map.addAnnotation(annotationToDisplay!)
             // Setting map area' limits
-            var latDelta:CLLocationDegrees = 0.01
-            var lonDelta:CLLocationDegrees = 0.01
+            let latDelta:CLLocationDegrees = 0.01
+            let lonDelta:CLLocationDegrees = 0.01
             
-            var span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+            let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
             
-            var region:MKCoordinateRegion = MKCoordinateRegionMake(annotationToDisplay!.coordinate, span)
+            let region:MKCoordinateRegion = MKCoordinateRegionMake(annotationToDisplay!.coordinate, span)
             
             map.setRegion(region, animated: true)
         }
         
-        var uilpgr = UILongPressGestureRecognizer(target: self, action: "addFavoritePlace:")
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: "addFavoritePlace:")
         uilpgr.minimumPressDuration = 1.0
         map.addGestureRecognizer(uilpgr)
         
@@ -51,10 +51,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     /*
     *
-    * Thi function will be called every time user's location is updated.
+    * The function will be called every time user's location is updated.
     * We are going to keep the map centered where the user is located.
     */
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    optional func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         // When locations are updated, at least one location is provided.
         var location: CLLocation = locations[0] as! CLLocation
@@ -71,6 +71,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         var region:MKCoordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
         
         map.setRegion(region, animated: true)
+        manager.stopUpdatingLocation()
     
     }
 
@@ -95,12 +96,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             
                 if error != nil {
-                    println("Reverse geocoder failed with error" + error.localizedDescription)
+                    print("Reverse geocoder failed with error" + error!.localizedDescription)
                     return
                 }
                 
-                if placemarks.count > 0 {
-                    let pm = placemarks[0] as! CLPlacemark
+                if placemarks?.count > 0 {
+                    let pm = placemarks![0] as! CLPlacemark
                     //println("\(pm.thoroughfare), \(pm.subLocality), \(pm.locality), \(pm.administrativeArea)")
                     
                     var subThoroughfare = ""
@@ -108,15 +109,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     var locality = ""
                     
                     if (pm.subThoroughfare != nil ){
-                        subThoroughfare = pm.subThoroughfare
+                        subThoroughfare = pm.subThoroughfare!
                     }
                     
                     if (pm.thoroughfare != nil ){
-                        thoroughfare = pm.thoroughfare
+                        thoroughfare = pm.thoroughfare!
                     }
                     
                     if (pm.locality != nil ){
-                        locality = pm.locality
+                        locality = pm.locality!
                     }
                     
                     address = "\(subThoroughfare) \(thoroughfare) \(locality)"
@@ -135,7 +136,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     //println(address)
                 }
                 else {
-                    println("Problem with the data received from geocoder")
+                    print("Problem with the data received from geocoder")
                 }
             })
 
