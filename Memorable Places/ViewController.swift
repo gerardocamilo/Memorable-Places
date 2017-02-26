@@ -8,30 +8,6 @@
 
 import UIKit
 import MapKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 var manager: CLLocationManager!
 var annotationToDisplay: MKPointAnnotation? = nil
@@ -124,7 +100,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     return
                 }
                 
-                if placemarks?.count > 0 {
+                if let marks = placemarks {
+                    if marks.count > 0 {
                     let pm = placemarks![0] 
                     //println("\(pm.thoroughfare), \(pm.subLocality), \(pm.locality), \(pm.administrativeArea)")
                     
@@ -148,7 +125,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
                     //Annotation to be stored
                     let annotation = MKPointAnnotation();
-                    annotation.title = address //"Location \(favoritePlaces.count + 1)";
+                    annotation.title = address 
                     annotation.subtitle = "Added by you";
                     annotation.coordinate = newCoordinate;
                     
@@ -158,6 +135,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     favoritePlaces[favoritePlaces.count] = annotation
                     
                     //println(address)
+                    }
                 }
                 else {
                     print("Problem with the data received from geocoder")
