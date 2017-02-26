@@ -24,7 +24,7 @@ class FavoritesTableViewController: UITableViewController {
 
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData();
     }
 
@@ -35,13 +35,13 @@ class FavoritesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         // println("numberOfRowsInSection: \(favoritePlaces.count)");
@@ -49,11 +49,11 @@ class FavoritesTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
         
         // print("IndexPathRow: \(indexPath.row).");
         // print("FavoritePlaces Count: \(favoritePlaces.count).");
@@ -61,7 +61,7 @@ class FavoritesTableViewController: UITableViewController {
         // Configure the cell...
         if(favoritePlaces.count > 0){
 
-            var annotation: MKPointAnnotation = favoritePlaces[indexPath.row]!
+            let annotation: MKPointAnnotation = favoritePlaces[indexPath.row]!
             cell.textLabel?.text = annotation.title
             // print("AnnotationDesc: \(annotation.title).");
         }
@@ -70,11 +70,11 @@ class FavoritesTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
         annotationToDisplay = favoritePlaces[indexPath.row]!
         
-        self.performSegueWithIdentifier("showPlaceOnMap", sender: self)
+        self.performSegue(withIdentifier: "showPlaceOnMap", sender: self)
         
         return indexPath
     }

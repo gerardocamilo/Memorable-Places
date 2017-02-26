@@ -8,6 +8,30 @@
 
 import UIKit
 import MapKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 var manager: CLLocationManager!
 var annotationToDisplay: MKPointAnnotation? = nil
@@ -43,7 +67,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             map.setRegion(region, animated: true)
         }
         
-        let uilpgr = UILongPressGestureRecognizer(target: self, action: "addFavoritePlace:")
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.addFavoritePlace(_:)))
         uilpgr.minimumPressDuration = 1.0
         map.addGestureRecognizer(uilpgr)
         
@@ -54,41 +78,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     * The function will be called every time user's location is updated.
     * We are going to keep the map centered where the user is located.
     */
-    optional func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager( _ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         // When locations are updated, at least one location is provided.
-        var location: CLLocation = locations[0] as! CLLocation
+        let location: CLLocation = locations[0] 
 
         // Setting map area' limits
-        var latDelta:CLLocationDegrees = 0.01
-        var lonDelta:CLLocationDegrees = 0.01
+        let latDelta:CLLocationDegrees = 0.01
+        let lonDelta:CLLocationDegrees = 0.01
         
         //creating the "square" that will be applied to the region
-        var span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+        let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
         
         //This is the object that defines the area that the map will display
         //Basically, the map will be centered in this area
-        var region:MKCoordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
+        let region:MKCoordinateRegion = MKCoordinateRegionMake(location.coordinate, span)
         
         map.setRegion(region, animated: true)
         manager.stopUpdatingLocation()
     
     }
 
-    func addFavoritePlace(gestureRecognizer: UILongPressGestureRecognizer){
+    func addFavoritePlace(_ gestureRecognizer: UILongPressGestureRecognizer){
     
         //Making sure of only using the first action triggered by the long press
         //This way, duplicate places are avoided.
-        if gestureRecognizer.state == UIGestureRecognizerState.Began {
+        if gestureRecognizer.state == UIGestureRecognizerState.began {
             
             //Getting the exact point where the user pressed
-            var touchPoint = gestureRecognizer.locationInView(self.map)
+            let touchPoint = gestureRecognizer.location(in: self.map)
             
             //Extracting the coordinate to set it up in the annotation
-            var newCoordinate: CLLocationCoordinate2D = map.convertPoint(touchPoint, toCoordinateFromView: self.map)
+            let newCoordinate: CLLocationCoordinate2D = map.convert(touchPoint, toCoordinateFrom: self.map)
             
             //CLLocation needed to get the address using reverseGeocodeLocation
-            var location:CLLocation = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
+            let location:CLLocation = CLLocation(latitude: newCoordinate.latitude, longitude: newCoordinate.longitude)
             
             //The annotation title for the annotations will be the address if available
             var address = ""
@@ -101,7 +125,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 }
                 
                 if placemarks?.count > 0 {
-                    let pm = placemarks![0] as! CLPlacemark
+                    let pm = placemarks![0] 
                     //println("\(pm.thoroughfare), \(pm.subLocality), \(pm.locality), \(pm.administrativeArea)")
                     
                     var subThoroughfare = ""
@@ -123,7 +147,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     address = "\(subThoroughfare) \(thoroughfare) \(locality)"
 
                     //Annotation to be stored
-                    var annotation = MKPointAnnotation();
+                    let annotation = MKPointAnnotation();
                     annotation.title = address //"Location \(favoritePlaces.count + 1)";
                     annotation.subtitle = "Added by you";
                     annotation.coordinate = newCoordinate;
@@ -143,12 +167,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //Cleaning map's annotation before leaving the controller..
         //annotationToDisplay = nil
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
 
         if parent == nil {
             //Also saving battery by turning location use off when it isn't required.
